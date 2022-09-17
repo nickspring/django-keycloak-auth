@@ -55,8 +55,13 @@ class Connect:
                 "CLIENT_SECRET_KEY"
             )
             self.internal_url = internal_url or self.config.get("INTERNAL_URL")
-            self.client_admin_role = self.config.get("CLIENT_ADMIN_ROLE", "admin")
-            self.realm_admin_role = self.config.get("REALM_ADMIN_ROLE", "admin")
+
+            self.client_superuser_role = self.config.get("CLIENT_SUPERUSER_ROLE", "admin")
+            self.realm_superuser_role = self.config.get("REALM_SUPERUSER_ROLE", "admin")
+
+            self.client_staff_role = self.config.get("CLIENT_STAFF_ROLE", "admin")
+            self.realm_staff_role = self.config.get("REALM_STAFF_ROLE", "admin")
+
             self.graphql_endpoint = self.config.get("GRAPHQL_ENDPOINT", None)
             self.exempt_uris = self.config.get("EXEMPT_URIS", [])
             # Flag if the token should be introspected or decoded
@@ -270,9 +275,19 @@ class Connect:
         """
         Check if token belongs to a user with superuser permissions
         """
-        if self.client_admin_role in self.client_roles(token):
+        if self.client_superuser_role in self.client_roles(token):
             return True
-        if self.realm_admin_role in self.realm_roles(token):
+        if self.realm_superuser_role in self.realm_roles(token):
+            return True
+        return False
+
+    def has_staff_perm(self, token):
+        """
+        Check if token belongs to a user with superuser permissions
+        """
+        if self.client_staff_role in self.client_roles(token):
+            return True
+        if self.realm_staff_role in self.realm_roles(token):
             return True
         return False
 

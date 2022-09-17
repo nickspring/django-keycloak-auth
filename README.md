@@ -16,13 +16,16 @@ This package can only be used for projects started from scratch since they overr
 
     ```
     KEYCLOAK_CONFIG = {
+        'BASE_PATH': 'auth/', # default path, but something keycloak doesn't have it in url
         'SERVER_URL': '<PUBLIC_SERVER_URL>',
         'INTERNAL_URL': <INTERNAL_SERVER_URL>'',
         'REALM': '<REALM_NAME>',
         'CLIENT_ID': '<CLIENT_ID>',
         'CLIENT_SECRET_KEY': '<CLIENT_SECRET_KEY>',
-        'CLIENT_ADMIN_ROLE': '<CLIENT_ADMIN_ROLE>',
-        'REALM_ADMIN_ROLE': '<REALM_ADMIN_ROLE>',
+        'CLIENT_SUPERUSER_ROLE': '<client role in Keycloak which means superuser in Django>',
+        'REALM_SUPERUSER_ROLE': '<realm role in Keycloak which means superuser in Django>',
+        'CLIENT_STAFF_ROLE': '<client role in Keycloak which means staff user in Django>', 
+        'REALM_STAFF_ROLE': '<realm role in Keycloak which means staff in Django>', 
         'EXEMPT_URIS': [],  # URIS to be ignored by the package
         'GRAPHQL_ENDPOINT': 'graphql/'  # Default graphQL endpoint
     }

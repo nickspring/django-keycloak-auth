@@ -71,19 +71,11 @@ class KeycloakUserManager(UserManager):
             raise ValueError("Invalid token")
 
         user_info = self.keycloak.get_user_info(token)
-
-        # set admin permissions if user is admin
-        is_staff = False
-        is_superuser = False
-        if self.keycloak.has_superuser_perm(token):
-            is_staff = True
-            is_superuser = True
-
         user = self.model(
             id=user_info.get("sub"),
             username=user_info.get("preferred_username"),
-            is_staff=is_staff,
-            is_superuser=is_superuser,
+            is_staff=self.keycloak.has_staff_perm(token),
+            is_superuser=self.keycloak.has_superuser_perm(token),
             date_joined=timezone.now(),
             **kwargs
         )
@@ -110,22 +102,14 @@ class KeycloakUserManagerAutoId(KeycloakUserManager):
             raise ValueError("Invalid token")
 
         user_info = self.keycloak.get_user_info(token)
-
-        # set admin permissions if user is admin
-        is_staff = False
-        is_superuser = False
-        if self.keycloak.has_superuser_perm(token):
-            is_staff = True
-            is_superuser = True
-
         user = self.model(
             keycloak_id=user_info.get("sub"),
             username=user_info.get("preferred_username"),
             first_name=user_info.get("given_name"),
             last_name=user_info.get("family_name"),
             email=user_info.get("email"),
-            is_staff=is_staff,
-            is_superuser=is_superuser,
+            is_staff=self.keycloak.has_staff_perm(token),
+            is_superuser=self.keycloak.has_superuser_perm(token),
             date_joined=timezone.now(),
             **kwargs
         )

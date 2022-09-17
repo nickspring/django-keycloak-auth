@@ -25,12 +25,10 @@ class KeycloakAuthenticationBackend(RemoteUserBackend):
                 user.email = user_info.get("email")
         except User.DoesNotExist:
             user = User.objects.create_user(username, password)
-        if keycloak.has_superuser_perm(token):
-            user.is_staff = True
-            user.is_superuser = True
-        else:
-            user.is_staff = False
-            user.is_superuser = False
+
+        user.is_superuser = keycloak.has_superuser_perm(token)
+        user.is_staff = keycloak.has_staff_perm(token)
+
         user.save()
 
         return user
