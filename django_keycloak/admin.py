@@ -29,7 +29,7 @@ class UserAdmin(admin.ModelAdmin):
         'user_permissions',
         'groups',
     ]
-    readonly_fields = ["user_name", "keycloak_link", "email", "first_name", "last_name"]
+    readonly_fields = ["username", "keycloak_link", "email", "first_name", "last_name"]
 
     search_fields = ["username", "email"]
 
@@ -55,8 +55,8 @@ class UserAdmin(admin.ModelAdmin):
 
     def has_change_permission(self, request, obj=None):
         # superuser can set up permissions for other users
-        print(request.user)
-        return request.user.is_super_user
+
+        return request.user.is_super_user()
 
 
 admin.site.register(User, UserAdmin)
