@@ -47,14 +47,6 @@ class UserAdmin(admin.ModelAdmin):
 
     keycloak_link.short_description = _("keycloak link")
 
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-    def has_add_permission(self, request, obj=None):
-        return False
-
-    def has_change_permission(self, request, obj=None):
-        return False
 
 
 admin.site.register(User, UserAdmin)
