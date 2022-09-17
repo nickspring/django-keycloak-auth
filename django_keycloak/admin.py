@@ -29,7 +29,7 @@ class UserAdmin(admin.ModelAdmin):
         'user_permissions',
         'groups',
     ]
-    readonly_fields = ["keycloak_link", "email", "first_name", "last_name"]
+    readonly_fields = ["user_name", "keycloak_link", "email", "first_name", "last_name"]
 
     search_fields = ["username", "email"]
 
@@ -47,6 +47,15 @@ class UserAdmin(admin.ModelAdmin):
 
     keycloak_link.short_description = _("keycloak link")
 
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        # superuser can set up permissions for other users
+        return request.user.is_super_user()
 
 
 admin.site.register(User, UserAdmin)
