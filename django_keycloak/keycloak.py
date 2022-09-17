@@ -8,9 +8,10 @@ import requests
 from django.conf import settings
 from jwt import PyJWKClient
 from jwt.exceptions import InvalidTokenError
-
+from cachetools.func import ttl_cache
 from .decorators import keycloak_api_error_handler
 from .urls import (
+    KEYCLOAK_BASE_PATH,
     KEYCLOAK_CREATE_USER,
     KEYCLOAK_DELETE_USER,
     KEYCLOAK_GET_TOKEN,
@@ -20,7 +21,6 @@ from .urls import (
     KEYCLOAK_USER_INFO,
     KEYCLOAK_OPENID_CONFIG,
     KEYCLOAK_UPDATE_USER,
-    KEYCLOAK_CREATE_USER,
     KEYCLOAK_GET_USER_CLIENT_ROLES_BY_ID,
 )
 
@@ -33,6 +33,7 @@ class Connect:
     def __init__(
         self,
         server_url=None,
+        base_path=None,
         realm=None,
         client_id=None,
         client_uuid=None,
@@ -46,6 +47,7 @@ class Connect:
             raise Exception("Missing KEYCLOAK_CONFIG on settings file.")
         try:
             self.server_url = server_url or self.config.get("SERVER_URL")
+            self.base_path = base_path or self.config.get("BASE_PATH", KEYCLOAK_BASE_PATH)
             self.realm = realm or self.config.get("REALM")
             self.client_uuid = client_uuid or self.config.get("CLIENT_UUID")
             self.client_id = client_id or self.config.get("CLIENT_ID")
@@ -349,6 +351,8 @@ class Connect:
 
         # Get the public key from the identity provider, i.e., the keycloak server
         decoded = self._decode_token(self._client_token, self.client_jwt_audience)
+        if not decoded:
+            return True
         exp = datetime.fromtimestamp(decoded["exp"], tz=timezone.utc)
         iat = datetime.fromtimestamp(decoded["iat"], tz=timezone.utc)
         now = datetime.now(tz=timezone.utc)
@@ -392,13 +396,14 @@ class Connect:
         return [server_url, headers]
 
     def _make_request_config(self):
-        server_url = self.server_url
+        server_url = f"{self.server_url}{self.base_path}"
         headers = {}
         if self.internal_url:
-            server_url = self.internal_url
-            headers["HOST"] = urlparse(self.internal_url).netloc
+            server_url = f"{self.internal_url}{self.base_path}"
+            headers["HOST"] = urlparse(self.server_url).netloc
         return [server_url, headers]
 
+    @ttl_cache(maxsize=128, ttl=60)
     def _decode_token(
         self, token: str, audience: Union[str, List[str]], raise_error=False
     ) -> Optional[Dict]:
