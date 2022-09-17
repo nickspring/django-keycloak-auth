@@ -16,7 +16,7 @@ class UserAdmin(admin.ModelAdmin):
         "is_staff",
         "is_superuser",
     )
-    list_display_links('username', )
+    list_display_links = ('username', )
     fields = [
         "username",
         "keycloak_link",
