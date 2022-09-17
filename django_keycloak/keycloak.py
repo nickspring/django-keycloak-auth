@@ -285,6 +285,8 @@ class Connect:
         """
         Check if token belongs to a user with superuser permissions
         """
+        if self.has_superuser_perm(token):
+            return True
         if self.client_staff_role in self.client_roles(token):
             return True
         if self.realm_staff_role in self.realm_roles(token):
