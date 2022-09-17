@@ -18,5 +18,5 @@ KEYCLOAK_OPENID_CONFIG = "{}/realms/{}/.well-known/openid-configuration"
 
 # ADMIN CONSOLE
 KEYCLOAK_ADMIN_USER_PAGE = (
-    "{host}/auth/admin/master/console/#/realms/{realm}/users/{id}"
+    "{host}/admin/master/console/#/{realm}/users/{id}/settings"
 )
