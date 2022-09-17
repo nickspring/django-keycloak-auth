@@ -55,6 +55,7 @@ class UserAdmin(admin.ModelAdmin):
 
     def has_change_permission(self, request, obj=None):
         # superuser can set up permissions for other users
+        print(request.user)
         return request.user.is_super_user
 
 
