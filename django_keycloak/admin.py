@@ -16,6 +16,7 @@ class UserAdmin(admin.ModelAdmin):
         "is_staff",
         "is_superuser",
     )
+    list_display_links('username', )
     fields = [
         "username",
         "keycloak_link",
@@ -25,6 +26,8 @@ class UserAdmin(admin.ModelAdmin):
         "is_staff",
         "is_superuser",
         "is_active",
+        'user_permissions',
+        'groups',
     ]
     readonly_fields = ["keycloak_link", "email", "first_name", "last_name"]
 
@@ -32,11 +35,11 @@ class UserAdmin(admin.ModelAdmin):
 
     def keycloak_link(self, obj):
         config = settings.KEYCLOAK_CONFIG
-        label = obj.id
+        label = obj.username
         base_path = config.get("BASE_PATH", KEYCLOAK_BASE_PATH)
         host = f"{config.get('SERVER_URL')}{base_path}"
         link = KEYCLOAK_ADMIN_USER_PAGE.format(
-            host=host, realm=config.get("REALM"), id=label
+            host=host, realm=config.get("REALM"), id=obj.keycloak_id
         )
         return format_html(
             '<a href="{link}" target="_blank">{label}</a>', link=link, label=label
