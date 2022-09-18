@@ -152,7 +152,7 @@ class Connect:
             headers=headers,
         )
         if bool(os.getenv('KEYCLOAK_DEBUG')):
-            print("def get_token_from_credentials: access token: {}".format(self._client_token))
+            print("def get_token_from_credentials: access token: {}".format(response.json().get('access_token')))
 
         return response.json()
 
