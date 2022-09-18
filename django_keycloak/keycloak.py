@@ -3,6 +3,7 @@ from functools import cached_property
 from typing import Dict, List, Optional, Union
 from urllib.parse import urlparse
 
+import os
 import jwt
 import requests
 from django.conf import settings
@@ -195,6 +196,10 @@ class Connect:
             headers=headers,
         )
         self._client_token = response.json().get("access_token")
+
+        if bool(os.getenv('KEYCLOAK_DEBUG')):
+            print("Access token: {}".format(self._client_token))
+
         return self._client_token
 
     def get_users(self, **params):
