@@ -151,6 +151,9 @@ class Connect:
             data=payload,
             headers=headers,
         )
+        if bool(os.getenv('KEYCLOAK_DEBUG')):
+            print("def get_token_from_credentials: access token: {}".format(self._client_token))
+
         return response.json()
 
     def refresh_token_from_credentials(self, refresh_token):
@@ -198,7 +201,7 @@ class Connect:
         self._client_token = response.json().get("access_token")
 
         if bool(os.getenv('KEYCLOAK_DEBUG')):
-            print("Access token: {}".format(self._client_token))
+            print("def get_token: access token: {}".format(self._client_token))
 
         return self._client_token
 
