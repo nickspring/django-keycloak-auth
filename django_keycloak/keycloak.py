@@ -139,6 +139,7 @@ class Connect:
             "grant_type": "password",
             "client_id": self.client_id,
             "client_secret": self.client_secret_key,
+            'client_assertion_type': 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
             "username": username,
             "password": password,
             "scope": "openid",
