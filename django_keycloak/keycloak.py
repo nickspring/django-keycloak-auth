@@ -231,6 +231,10 @@ class Connect:
         response = requests.request(
             "GET", KEYCLOAK_USER_INFO.format(server_url, self.realm), headers=headers
         )
+
+        if bool(os.getenv('KEYCLOAK_DEBUG')):
+            print("def get_user_info: {}".format(response.json()))
+
         return response.json()
 
     def get_user_id(self, token):
