@@ -4,7 +4,9 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
+    run_before = [
+        ('admin', '0001_initial'),
+    ]
     dependencies = [
         ("django_keycloak", "0004_keycloakuserautoid"),
     ]
