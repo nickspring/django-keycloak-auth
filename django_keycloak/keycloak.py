@@ -363,7 +363,7 @@ class Connect:
         response = requests.request(
             "POST",
             KEYCLOAK_GET_USER_CLIENT_ROLES_BY_ID.format(
-                server_url, self.realm, user_id, self.client_uuid
+                server_url, self.realm, user_id, self.client_id
             ),
             headers=headers,
             json=roles,
