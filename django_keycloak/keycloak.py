@@ -220,9 +220,9 @@ class Connect:
         )
         return response.json()
 
-    def get_users_by_client_role(self, client_id, role_name, **params):
+    def get_users_by_role(self, role_name, **params):
         """
-        Get users for specific client id and role name
+        Get users with specific role
         @return:
         """
         server_url, headers = self._make_secure_json_request_config()
@@ -232,7 +232,7 @@ class Connect:
             KEYCLOAK_GET_USERS_BY_CLIENT_ROLE.format(
                 server_url,
                 self.realm,
-                client_id,
+                self.client_id,
                 role_name,
             ),
             headers=headers,
