@@ -345,7 +345,7 @@ class Connect:
         Get client role by name
         """
         server_url, headers = self._make_secure_json_request_config()
-
+        print (KEYCLOAK_GET_ROLE_BY_ID.format(server_url, self.realm, self.client_id, role_name))
         response = requests.request(
             "GET",
             KEYCLOAK_GET_ROLE_BY_ID.format(server_url, self.realm, self.client_id, role_name),
