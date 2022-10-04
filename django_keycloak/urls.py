@@ -16,6 +16,7 @@ KEYCLOAK_SEND_ACTIONS_EMAIL = "{}/admin/realms/{}/users/{}/execute-actions-email
 KEYCLOAK_DELETE_USER = "{}/admin/realms/{}/users/{}"
 KEYCLOAK_OPENID_CONFIG = "{}/realms/{}/.well-known/openid-configuration"
 
+KEYCLOAK_GET_ROLE_BY_ID = "{}/realms/{}/clients/{}/roles/{}"
 
 # ADMIN CONSOLE
 KEYCLOAK_ADMIN_USER_PAGE = (

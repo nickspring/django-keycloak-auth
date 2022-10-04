@@ -24,6 +24,7 @@ from .urls import (
     KEYCLOAK_UPDATE_USER,
     KEYCLOAK_GET_USER_CLIENT_ROLES_BY_ID,
     KEYCLOAK_GET_USERS_BY_CLIENT_ROLE,
+    KEYCLOAK_GET_ROLE_BY_ID,
 )
 
 
@@ -335,6 +336,19 @@ class Connect:
         response = requests.request(
             "GET",
             KEYCLOAK_GET_USER_BY_ID.format(server_url, self.realm, user_id),
+            headers=headers,
+        )
+        return response.json()
+
+    def get_client_role_by_name(self, role_name):
+        """
+        Get client role by name
+        """
+        server_url, headers = self._make_secure_json_request_config()
+
+        response = requests.request(
+            "GET",
+            KEYCLOAK_GET_ROLE_BY_ID.format(server_url, self.realm, self.client_id, role_name),
             headers=headers,
         )
         return response.json()
