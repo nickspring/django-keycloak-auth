@@ -354,6 +354,23 @@ class Connect:
         )
         return response.json()
 
+    def set_user_client_roles_by_id(self, user_id, roles):
+        """
+        Set user client roles by the id
+        """
+        server_url, headers = self._make_secure_json_request_config()
+
+        response = requests.request(
+            "POST",
+            KEYCLOAK_GET_USER_CLIENT_ROLES_BY_ID.format(
+                server_url, self.realm, user_id, self.client_uuid
+            ),
+            headers=headers,
+            json=roles,
+        )
+        response.raise_for_status()
+        return True
+
     @keycloak_api_error_handler
     def update_user(self, user_id, **values):
         """
