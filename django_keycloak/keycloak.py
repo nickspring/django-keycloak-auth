@@ -233,7 +233,7 @@ class Connect:
             KEYCLOAK_GET_USERS_BY_CLIENT_ROLE.format(
                 server_url,
                 self.realm,
-                self.client_id,
+                self.client_uuid,
                 role_name,
             ),
             headers=headers,
