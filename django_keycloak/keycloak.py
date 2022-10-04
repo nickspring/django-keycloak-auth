@@ -366,7 +366,7 @@ class Connect:
                 server_url, self.realm, user_id, self.client_id
             ),
             headers=headers,
-            json=roles,
+            data=roles,
         )
         response.raise_for_status()
         return True
