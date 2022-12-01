@@ -25,6 +25,8 @@ from .urls import (
     KEYCLOAK_GET_USER_CLIENT_ROLES_BY_ID,
     KEYCLOAK_GET_USERS_BY_CLIENT_ROLE,
     KEYCLOAK_GET_ROLE_BY_ID,
+    KEYCLOAK_GET_GROUPS,
+    KEYCLOAK_GET_USERS_BY_GROUP_ID,
 )
 
 
@@ -222,6 +224,21 @@ class Connect:
         )
         return response.json()
 
+    def get_groups(self, **params):
+        """
+        Get groups for realm
+        @return:
+        """
+        server_url, headers = self._make_secure_json_request_config()
+
+        response = requests.request(
+            "GET",
+            KEYCLOAK_GET_GROUPS.format(server_url, self.realm),
+            headers=headers,
+            params=params,
+        )
+        return response.json()
+
     def get_users_by_role(self, role_name, **params):
         """
         Get users with specific role
@@ -236,6 +253,25 @@ class Connect:
                 self.realm,
                 self.client_uuid,
                 role_name,
+            ),
+            headers=headers,
+            params=params,
+        )
+        return response.json()
+
+    def get_users_by_group_id(self, group_id, **params):
+        """
+        Get users with specific group id
+        @return:
+        """
+        server_url, headers = self._make_secure_json_request_config()
+
+        response = requests.request(
+            "GET",
+            KEYCLOAK_GET_USERS_BY_GROUP_ID.format(
+                server_url,
+                self.realm,
+                group_id,
             ),
             headers=headers,
             params=params,

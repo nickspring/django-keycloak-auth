@@ -6,6 +6,10 @@ KEYCLOAK_USER_INFO = "{}/realms/{}/protocol/openid-connect/userinfo"
 KEYCLOAK_GET_USERS = "{}/admin/realms/{}/users"
 KEYCLOAK_GET_USERS_BY_CLIENT_ROLE = "{}/admin/realms/{}/clients/{}/roles/{}/users"
 KEYCLOAK_GET_TOKEN = "{}/realms/{}/protocol/openid-connect/token"
+
+KEYCLOAK_GET_GROUPS = "{}/realms/{}/groups"
+KEYCLOAK_GET_USERS_BY_GROUP_ID = "{}/realms/{}/groups/{}/members"
+
 KEYCLOAK_GET_USER_BY_ID = "{}/admin/realms/{}/users/{}"
 KEYCLOAK_GET_USER_CLIENT_ROLES_BY_ID = (
     "{}/admin/realms/{}/users/{}/role-mappings/clients/{}"
